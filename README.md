@@ -1,6 +1,12 @@
 # MindConnect
 
-API REST hecha con Spring Boot y arquitectura hexagonal. Guarda los datos en PostgreSQL (52 tablas que crea Flyway al arrancar) y trae un CRUD para cada tabla.
+Backend para una plataforma de atención en salud mental: profesionales, pacientes y sus contactos, historias clínicas, consultas, evaluaciones, diagnósticos, tratamientos, medicación y consentimientos.
+
+Es una API REST hecha con Spring Boot y arquitectura hexagonal. Guarda los datos en PostgreSQL (52 tablas que crea Flyway al arrancar), trae un CRUD para cada tabla y protege todas las rutas con Spring Security y JWT: cualquier usuario autenticado puede consultar, y solo un administrador puede crear, modificar o borrar.
+
+Tecnologías: Java 21, Spring Boot (Web, Data JPA, Validation, Security), JJWT, PostgreSQL, Flyway, Maven multimódulo y JUnit 5.
+
+Este repositorio es la última versión del trabajo de clase. Empezó como la migración del modelo de datos a Spring Boot, después se reorganizó por contextos (bounded contexts) con agregados y eventos de dominio, y al final se le agregó la seguridad.
 
 ## Qué necesitas
 
@@ -167,3 +173,14 @@ Las llaves foráneas se guardan como `UUID` simples, sin `@ManyToOne`, y los map
 - **`password authentication failed`**: la contraseña del `.env` no coincide. Con Docker, la contraseña queda fijada al crear el volumen; si la cambiaste, borra el contenedor y el volumen y créalos de nuevo.
 - **`Migration checksum mismatch`**: se editó una migración ya aplicada. En desarrollo, empieza de cero (ver Base de datos).
 - **`Port 8081 was already in use`**: usa otro puerto, como arriba.
+
+## Qué aprendí
+
+- **Que el dominio no dependa del framework.** `domain` y `application` no importan nada de Spring ni de JPA, así que sus más de 600 pruebas corren en segundos y sin base de datos. Spring solo aparece en `infrastructure`.
+- **Repetir un molde con disciplina.** Son 52 tablas y todas tienen la misma forma en los tres módulos. Así cualquier clase se encuentra sin buscarla: si sabes dónde está la de `country`, sabes dónde está la de cualquier otra tabla.
+- **Migraciones versionadas.** Con Flyway la base se crea igual en cualquier equipo, y una migración que ya se aplicó no se edita: el cambio va en una nueva.
+- **Seguridad sin estado.** El filtro `JwtAuthenticationFilter` valida el token en cada petición y `SecurityConfig` decide por método HTTP qué rol puede hacer qué. Los usuarios viven en su propia tabla (`V53__create_Users_table.sql`) con la contraseña cifrada.
+
+## Autor
+
+Camilo Andrés García Almeida · [GitHub](https://github.com/CamiloGarcia079) · [LinkedIn](https://www.linkedin.com/in/camilo-garcia-7570693b7/)
