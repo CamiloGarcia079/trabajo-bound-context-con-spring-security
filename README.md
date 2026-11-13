@@ -183,4 +183,4 @@ Las llaves foráneas se guardan como `UUID` simples, sin `@ManyToOne`, y los map
 
 ## Autor
 
-Camilo Andrés García Almeida · [GitHub](https://github.com/CamiloGarcia079) · [LinkedIn](https://www.linkedin.com/in/camilo-garcia-7570693b7/)
+Camilo Andrés García Almeida · [GitHub](https://github.com/CamiloGarcia079) · [LinkedIn](https://www.linkedin.com/in/camilo-andr%C3%A9s-garc%C3%ADa-almeida-7570693b7/)
